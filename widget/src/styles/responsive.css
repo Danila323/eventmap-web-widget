@@ -1,0 +1,183 @@
+/**
+ * Responsive styles for Event Map Widget.
+ * These styles are loaded inside Shadow DOM, so they're scoped.
+ */
+
+/* Mobile First - базовые стили */
+@media (max-width: 767px) {
+  .eventmap-widget {
+    border-radius: 0 !important;
+  }
+
+  .eventmap-filters {
+    padding: 8px !important;
+    gap: 8px !important;
+    flex-wrap: wrap !important;
+  }
+
+  .eventmap-filter-group {
+    flex: 1 1 100% !important;
+    min-width: 100% !important;
+  }
+
+  .eventmap-filter-select,
+  .eventmap-filter-input {
+    width: 100% !important;
+    font-size: 16px !important; /* Предотвращает zoom на iOS */
+  }
+
+  .eventmap-map {
+    min-height: 250px !important;
+  }
+
+  .eventmap-popup-content {
+    max-width: 260px !important;
+  }
+
+  .eventmap-popup-image {
+    height: 100px !important;
+  }
+
+  .eventmap-popup-title {
+    font-size: 14px !important;
+  }
+
+  .eventmap-popup-description {
+    font-size: 13px !important;
+  }
+}
+
+/* Таблицы */
+@media (max-width: 480px) {
+  .eventmap-filters {
+    flex-direction: column !important;
+  }
+
+  .eventmap-filter-group {
+    width: 100% !important;
+  }
+
+  .eventmap-filter-label {
+    font-size: 12px !important;
+  }
+}
+
+/* Адаптация для маленьких экранов */
+@media (max-width: 360px) {
+  .eventmap-widget {
+    font-size: 13px;
+  }
+
+  .eventmap-filter-select,
+  .eventmap-filter-input {
+    padding: 8px 10px !important;
+  }
+}
+
+/* Ландшафтный режим на мобильных */
+@media (max-height: 500px) and (orientation: landscape) {
+  .eventmap-filters {
+    padding: 6px !important;
+  }
+
+  .eventmap-map {
+    min-height: 200px !important;
+  }
+}
+
+/* Улучшение touch-устройств */
+@media (hover: none) and (pointer: coarse) {
+  .eventmap-filter-select,
+  .eventmap-filter-input,
+  .eventmap-popup-link {
+    min-height: 44px !important; /* Минимальный размер для touch */
+    padding: 10px 14px !important;
+  }
+
+  /* Убираем hover эффекты на touch устройствах */
+  .eventmap-popup-link:active {
+    transform: scale(0.98);
+  }
+}
+
+/* High DPI экраны */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .eventmap-popup-image {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+}
+
+/* Печать */
+@media print {
+  .eventmap-filters {
+    display: none !important;
+  }
+
+  .eventmap-map {
+    height: 500px !important;
+  }
+
+  .eventmap-popup-link {
+    display: none !important;
+  }
+}
+
+/* Dark mode поддержка */
+@media (prefers-color-scheme: dark) {
+  .eventmap-widget {
+    background: #1a1a1a !important;
+  }
+
+  .eventmap-filters {
+    background: #2d2d2d !important;
+    border-bottom-color: #404040 !important;
+  }
+
+  .eventmap-filter-select,
+  .eventmap-filter-input {
+    background: #2d2d2d !important;
+    color: #e0e0e0 !important;
+    border-color: #404040 !important;
+  }
+
+  .eventmap-filter-select option {
+    background: #2d2d2d !important;
+    color: #e0e0e0 !important;
+  }
+
+  .eventmap-popup-title {
+    color: #e0e0e0 !important;
+  }
+
+  .eventmap-popup-description {
+    color: #a0a0a0 !important;
+  }
+
+  .eventmap-popup-date,
+  .eventmap-popup-venue {
+    color: #a0a0a0 !important;
+  }
+
+  .eventmap-popup-category-tag {
+    background: #404040 !important;
+    color: #e0e0e0 !important;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .eventmap-spinner {
+    animation: none !important;
+  }
+
+  .eventmap-popup-link {
+    transition: none !important;
+  }
+
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

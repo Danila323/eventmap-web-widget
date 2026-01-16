@@ -1,0 +1,86 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: eventmap_postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-eventmap}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-eventmap_password}
+      POSTGRES_DB: ${POSTGRES_DB:-eventmap}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-eventmap}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - eventmap_network
+
+  redis:
+    image: redis:7-alpine
+    container_name: eventmap_redis
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - eventmap_network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: eventmap_backend
+    environment:
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-eventmap}:${POSTGRES_PASSWORD:-eventmap_password}@postgres:5432/${POSTGRES_DB:-eventmap}
+      REDIS_URL: redis://redis:6379/0
+      SECRET_KEY: ${SECRET_KEY:-dev-secret-key-change-in-production}
+      YANDEX_MAPS_API_KEY: ${YANDEX_MAPS_API_KEY}
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:5173,http://localhost:3000,http://localhost:5500,http://127.0.0.1:5500}
+    ports:
+      - "${BACKEND_PORT:-8000}:8000"
+    volumes:
+      - ./backend:/app
+      - ./widget/dist:/app/widget/dist
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - eventmap_network
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+  admin-frontend:
+    build:
+      context: ./admin-frontend
+      dockerfile: Dockerfile
+    container_name: eventmap_admin
+    environment:
+      VITE_API_URL: ${VITE_API_URL:-http://localhost:8000}
+      VITE_YANDEX_MAPS_API_KEY: ${YANDEX_MAPS_API_KEY}
+    ports:
+      - "${ADMIN_PORT:-5173}:5173"
+    volumes:
+      - ./admin-frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+    networks:
+      - eventmap_network
+    command: npm run dev -- --host
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  eventmap_network:
+    driver: bridge

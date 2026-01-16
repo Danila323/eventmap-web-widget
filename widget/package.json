@@ -1,0 +1,33 @@
+{
+  "name": "@eventmap/widget",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "lint": "eslint src --ext js,ts"
+  },
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/widget.umd.cjs",
+  "module": "./dist/widget.js",
+  "exports": {
+    ".": {
+      "import": "./dist/widget.js",
+      "require": "./dist/widget.umd.cjs"
+    }
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "@typescript-eslint/eslint-plugin": "^8.15.0",
+    "@typescript-eslint/parser": "^8.15.0",
+    "eslint": "^9.14.0",
+    "terser": "^5.36.0",
+    "typescript": "^5.6.3",
+    "vite": "^6.0.1",
+    "vite-plugin-dts": "^4.3.0"
+  },
+  "dependencies": {}
+}
