@@ -59,7 +59,7 @@ export const WidgetForm = ({ initialValues, apiKeys, events, onSubmit, submitBut
         height,
         primary_color: primaryColor,
         marker_color: markerColor,
-        default_period: defaultPeriod as any,
+        default_period: defaultPeriod,
         show_search: showSearch,
         show_filters: showFilters,
         show_categories: showCategories,
@@ -98,7 +98,7 @@ export const WidgetForm = ({ initialValues, apiKeys, events, onSubmit, submitBut
       height,
       primary_color: primaryColor,
       marker_color: markerColor,
-      default_period: defaultPeriod as any,
+      default_period: defaultPeriod,
       show_search: showSearch,
       show_filters: showFilters,
       show_categories: showCategories,
@@ -430,7 +430,7 @@ export const WidgetForm = ({ initialValues, apiKeys, events, onSubmit, submitBut
             <select
               id="defaultPeriod"
               value={defaultPeriod}
-              onChange={(e) => setDefaultPeriod(e.target.value as any)}
+              onChange={(e) => setDefaultPeriod(e.target.value as 'today' | 'tomorrow' | 'week' | 'all')}
               className="w-full px-3 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm sm:text-base"
             >
               <option value="all">Все события</option>

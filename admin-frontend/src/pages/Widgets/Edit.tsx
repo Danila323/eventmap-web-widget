@@ -5,13 +5,13 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { widgetsApi, apiKeysApi, eventsApi } from '../../services';
 import { WidgetForm, WidgetPreview, EmbedCodeModal } from '../../components';
-import type { WidgetConfigCreate, ApiKey } from '../../types';
+import type { WidgetConfigCreate, WidgetConfig } from '../../types';
 
 export const WidgetEdit = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
-  const [widget, setWidget] = useState<Record<string, any> | null>(null);
+  const [widget, setWidget] = useState<WidgetConfig | null>(null);
   const [apiKeys, setApiKeys] = useState<Array<{ id: string; key: string; name?: string }>>([]);
   const [events, setEvents] = useState<Array<{ id: string; title: string; event_datetime: string }>>([]);
   const [isLoading, setIsLoading] = useState(true);
