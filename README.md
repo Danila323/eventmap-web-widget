@@ -37,7 +37,6 @@ event_map_widget/
 │       ├── map/         # Map integration
 │       ├── filters/     # Filter components
 │       └── styles/
-├── deployment/          # Production configs
 ├── docs/               # Documentation
 └── docker-compose.yml
 ```
