@@ -2,7 +2,7 @@
 Модель конфигурации виджета.
 """
 from datetime import datetime
-from sqlalchemy import Column, String, Boolean, Integer, Float, DateTime, ForeignKey, Text, ARRAY
+from sqlalchemy import Column, String, Boolean, Integer, Float, DateTime, ForeignKey, Text, JSON
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 import uuid
@@ -31,7 +31,7 @@ class WidgetConfig(Base):
     zoom_level = Column(Integer, default=10, nullable=False)
     center_lat = Column(Float, nullable=True)
     center_lon = Column(Float, nullable=True)
-    allowed_domains = Column(ARRAY(String), nullable=True)  # Белый список доменов
+    allowed_domains = Column(JSON, nullable=True)  # Белый список доменов (хранится как JSON)
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)
 

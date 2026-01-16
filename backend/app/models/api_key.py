@@ -2,7 +2,7 @@
 Модель API ключа.
 """
 from datetime import datetime
-from sqlalchemy import Column, String, Integer, DateTime, ForeignKey, ARRAY
+from sqlalchemy import Column, String, Integer, DateTime, ForeignKey, JSON
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 import uuid
@@ -19,7 +19,7 @@ class ApiKey(Base):
     user_id = Column(UUID(as_uuid=True), ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
     key = Column(String(255), unique=True, nullable=False, index=True)
     name = Column(String(255), nullable=False, default="API Key")  # Имя для удобства
-    allowed_domains = Column(ARRAY(String), nullable=True)  # Белый список доменов
+    allowed_domains = Column(JSON, nullable=True)  # Белый список доменов (хранится как JSON)
     usage_count = Column(Integer, default=0, nullable=False)  # Количество использований
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
     last_used_at = Column(DateTime, nullable=True)

@@ -2,6 +2,7 @@
 Зависимости для аутентификации в API.
 """
 from typing import Optional
+from uuid import UUID
 from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -45,8 +46,14 @@ async def get_current_user(
     if payload is None:
         raise credentials_exception
 
-    user_id: Optional[str] = payload.get("sub")
-    if user_id is None:
+    user_id_str: Optional[str] = payload.get("sub")
+    if user_id_str is None:
+        raise credentials_exception
+
+    # Конвертируем строку в UUID для корректной работы с SQLite
+    try:
+        user_id = UUID(user_id_str)
+    except ValueError:
         raise credentials_exception
 
     # Получаем пользователя из базы
